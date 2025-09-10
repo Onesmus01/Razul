@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .vite
+/frontend/frontent/
+
 
 # Editor directories and files
 .vscode/*
