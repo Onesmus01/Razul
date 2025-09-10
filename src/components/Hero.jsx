@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 import logo from '../assets/logo.jpg';
-
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-
 const hero1 = '/images/hero1.jpg';
-const hero2 ='/images/hero2.jpg';
+const hero2 = '/images/hero2.jpg';
 const images = [hero1, hero2];
-
 
 export default function HeroSection() {
   const [navbarSmall, setNavbarSmall] = useState(false);
