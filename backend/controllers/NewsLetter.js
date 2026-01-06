@@ -56,5 +56,5 @@ export const getSubscribers = async (req, res) => {
       success: false,
       message: "Failed to fetch subscribers",
     });
-  }
+  } //
 };
