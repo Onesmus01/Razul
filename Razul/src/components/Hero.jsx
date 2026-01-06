@@ -61,7 +61,7 @@ export default function HeroSection() {
               className="w-full h-full object-cover"
             />
             {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/10 bg-opacity-10 z-10" />
+            <div className="absolute inset-0 bg-black/5 bg-opacity-0 z-10" />
             {/* Hero content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-6 pt-24">
               <img

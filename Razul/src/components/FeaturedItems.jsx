@@ -47,7 +47,7 @@ const FeaturedProducts = () => {
         {/* LEFT ARROW */}
         <button
           onClick={() => scrollToIndex(scrollIndex - 1)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 backdrop-blur-md shadow-lg p-3 rounded-full hover:bg-blue-600 hover:text-white transition"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-blue-600 backdrop-blur-md shadow-lg p-3 rounded-full hover:bg-blue-600 hover:text-white transition"
         >
           <FaAngleLeft size={26} />
         </button>
@@ -55,7 +55,7 @@ const FeaturedProducts = () => {
         {/* RIGHT ARROW */}
         <button
           onClick={() => scrollToIndex(scrollIndex + 1)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 backdrop-blur-md shadow-lg p-3 rounded-full hover:bg-blue-600 hover:text-white transition"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-blue-600 backdrop-blur-md shadow-lg p-3 rounded-full hover:bg-blue-600 hover:text-white transition"
         >
           <FaAngleRight size={26} />
         </button>
