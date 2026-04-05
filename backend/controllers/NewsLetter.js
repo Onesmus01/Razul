@@ -1,5 +1,5 @@
 // controllers/newsletterController.js
-import Newsletter from "../models/Newsletter.js";
+import Newsletter from "../models/newsLetter.js";
 
 // 📌 Subscribe user
 export const subscribeNewsletter = async (req, res) => {
