@@ -124,7 +124,7 @@ const About = () => {
           Our Power Team
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-14 relative z-10">
+        <div className="grid md:grid-cols-3 sm:grid-cols-4 gap-6 md:gap-14 relative z-10">
           {[
             { img: `${asset.img1}`, name: 'Alex Johnson', role: 'Chief Executive Officer' },
             { img: `${asset.img2}`, name: 'Samantha Lee', role: 'Lead Software Engineer' },
