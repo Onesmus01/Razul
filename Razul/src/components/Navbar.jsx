@@ -1,82 +1,230 @@
-
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { Menu, X, Home } from 'lucide-react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Menu, X, Home, Info, Phone, LogIn, ChevronRight } from 'lucide-react';
 import logo from '../assets/logo.jpg';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close menu on route change
+  useEffect(() => {
+    setOpen(false);
+  }, [location]);
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [open]);
+
   const toggleMenu = () => setOpen(!open);
+
+  const navItems = [
+    { to: "/", label: "Home", icon: Home },
+    { to: "/about", label: "About Us", icon: Info },
+    { to: "/contact-us", label: "Contact", icon: Phone },
+    { to: "/auth", label: "Login", icon: LogIn },
+  ];
 
   return (
     <>
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-md border-b border-gray-200">
-        <div className="max-w-[1280px] mx-auto px-6 py-4 flex justify-between items-center transition-all duration-300">
+      {/* Main Navbar */}
+      <nav 
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+          scrolled 
+            ? 'bg-white/95 backdrop-blur-xl shadow-lg py-2' 
+            : 'bg-white/80 backdrop-blur-md py-4'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center">
+            
+            {/* Logo Section */}
+            <div
+              onClick={() => navigate('/')}
+              className="flex items-center gap-3 cursor-pointer group"
+            >
+              <div className="relative">
+                <img
+                  src={logo}
+                  alt="Razul Logo"
+                  className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-full shadow-md group-hover:shadow-xl transition-all duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 rounded-full bg-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <span 
+                className="text-xl sm:text-2xl font-bold text-yellow-500 tracking-wide hidden sm:block"
+                style={{ fontFamily: `'Playfair Display', serif` }}
+              >
+                Razul
+              </span>
+            </div>
 
-          {/* Logo */}
-          <div
-            onClick={() => navigate('/')}
-            className="flex items-center gap-3 cursor-pointer"
-          >
-            <img
-              src={logo}
-              alt="Razul Logo"
-              className="w-[120px] h-[70px] object-cover rounded-full shadow-sm"
-            />
-            <h1 className="text-3xl font-bold text-yellow-400 tracking-wider drop-shadow-sm" style={{ fontFamily: `'Playfair Display', serif` }}>
-              
-            </h1>
+            {/* Desktop Navigation */}
+            <ul className="hidden md:flex items-center gap-1">
+              {navItems.map((item) => (
+                <NavItemDesktop key={item.to} {...item} />
+              ))}
+            </ul>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={toggleMenu}
+              aria-label={open ? "Close Menu" : "Open Menu"}
+              className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-full bg-yellow-50 hover:bg-yellow-100 transition-all duration-300 active:scale-95"
+            >
+              <div className="relative w-6 h-6">
+                <Menu 
+                  className={`w-6 h-6 text-yellow-600 absolute transition-all duration-300 ${
+                    open ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'
+                  }`} 
+                />
+                <X 
+                  className={`w-6 h-6 text-yellow-600 absolute transition-all duration-300 ${
+                    open ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
+                  }`} 
+                />
+              </div>
+            </button>
           </div>
-
-          {/* Hamburger */}
-          <button
-            onClick={toggleMenu}
-            aria-label="Toggle Menu"
-            className="md:hidden p-2 rounded-md hover:bg-yellow-100 transition"
-          >
-            {open ? (
-              <X className="w-6 h-6 text-yellow-400" />
-            ) : (
-              <Menu className="w-6 h-6 text-yellow-400" />
-            )}
-          </button>
-
-          {/* Nav Items */}
-          <ul className={`absolute md:static top-[100px] left-0 w-full md:w-auto flex flex-col md:flex-row items-start md:items-center gap-5 px-6 md:px-0 py-6 md:py-0 bg-white/80 md:bg-transparent rounded-b-xl shadow-lg md:shadow-none transition-all duration-300 ease-in-out ${
-            open ? 'opacity-100 visible' : 'opacity-0 invisible md:opacity-100 md:visible'
-          }`}>
-            <NavItem to="/" label="Home" icon={<Home className="mr-2 w-5 h-5" />} />
-            <NavItem to="/about" label="About Us" />
-            <NavItem to="/contact-us" label="Contact" />
-            <NavItem to="/auth" label="Login" />
-          </ul>
         </div>
       </nav>
 
-      {/* Spacer to prevent content overlap */}
-      <div className="pt-[100px]" />
+      {/* Mobile Menu Overlay */}
+      <div 
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-500 ${
+          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setOpen(false)}
+      />
+
+      {/* Mobile Menu Drawer */}
+      <div 
+        className={`fixed top-0 right-0 h-full w-[280px] max-w-[85vw] bg-white z-50 md:hidden shadow-2xl transition-transform duration-500 ease-out ${
+          open ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        {/* Drawer Header */}
+        <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-yellow-50 to-white">
+          <div className="flex items-center gap-3">
+            <img
+              src={logo}
+              alt="Razul Logo"
+              className="w-10 h-10 object-cover rounded-full shadow-sm"
+            />
+            <span 
+              className="text-lg font-bold text-yellow-600"
+              style={{ fontFamily: `'Playfair Display', serif` }}
+            >
+              Razul
+            </span>
+          </div>
+          <button
+            onClick={() => setOpen(false)}
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <X className="w-5 h-5 text-gray-500" />
+          </button>
+        </div>
+
+        {/* Drawer Navigation */}
+        <div className="p-4">
+          <ul className="space-y-2">
+            {navItems.map((item, index) => (
+              <NavItemMobile 
+                key={item.to} 
+                {...item} 
+                index={index}
+                isOpen={open}
+              />
+            ))}
+          </ul>
+        </div>
+
+        {/* Drawer Footer */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-gray-50 to-white border-t border-gray-100">
+          <p className="text-xs text-gray-400 text-center">
+            © 2026 Razul. All rights reserved.
+          </p>
+        </div>
+      </div>
+
+      {/* Spacer */}
+      <div className={`transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'}`} />
     </>
   );
 }
 
-function NavItem({ to, label, icon }) {
+// Desktop Nav Item
+function NavItemDesktop({ to, label, icon: Icon }) {
   return (
     <li>
       <NavLink
         to={to}
         className={({ isActive }) =>
-          `flex items-center text-[17px] font-semibold py-2 px-4 rounded-md tracking-wide transition-all duration-200 ease-in-out ${
+          `relative flex items-center gap-2 px-4 py-2 text-sm font-semibold tracking-wide rounded-full transition-all duration-300 group ${
             isActive
-              ? 'text-yellow-400 border-b-2 border-yellow-400'
-              : 'text-gray-700 hover:text-yellow-400 hover:translate-x-1'
+              ? 'text-yellow-600 bg-yellow-50'
+              : 'text-gray-600 hover:text-yellow-600 hover:bg-yellow-50/50'
           }`
         }
         style={{ fontFamily: `'Raleway', sans-serif` }}
       >
-        {icon}
-        {label}
+        <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+        <span>{label}</span>
+        {({ isActive }) => isActive && (
+          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-yellow-500 rounded-full" />
+        )}
+      </NavLink>
+    </li>
+  );
+}
+
+// Mobile Nav Item
+function NavItemMobile({ to, label, icon: Icon, index, isOpen }) {
+  return (
+    <li 
+      className={`transform transition-all duration-500 ${
+        isOpen ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
+      }`}
+      style={{ transitionDelay: isOpen ? `${index * 75}ms` : '0ms' }}
+    >
+      <NavLink
+        to={to}
+        className={({ isActive }) =>
+          `flex items-center justify-between p-4 rounded-xl transition-all duration-300 ${
+            isActive
+              ? 'bg-yellow-50 text-yellow-600 shadow-sm border border-yellow-100'
+              : 'text-gray-600 hover:bg-gray-50 hover:text-yellow-600'
+          }`
+        }
+        style={{ fontFamily: `'Raleway', sans-serif` }}
+      >
+        <div className="flex items-center gap-3">
+          <div className={`p-2 rounded-lg ${
+            ({ isActive }) => isActive ? 'bg-yellow-100' : 'bg-gray-100'
+          }`}>
+            <Icon className="w-5 h-5" />
+          </div>
+          <span className="font-semibold">{label}</span>
+        </div>
+        <ChevronRight className="w-4 h-4 text-gray-400" />
       </NavLink>
     </li>
   );
