@@ -3,9 +3,8 @@ import { FaAngleLeft, FaAngleRight, FaStar, FaHeart, FaShoppingCart } from "reac
 import { Sparkles, TrendingUp, Zap, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import asset from "../assets/assets.js";
-import FeaturedProduct from "./FeaturedProducts.jsx";
 
-const FeaturedProducts = () => {
+const FeaturedProduct = () => {
   const mobileRef = useRef(null);
   const desktopRef = useRef(null);
   const navigate = useNavigate();
@@ -91,17 +90,7 @@ const FeaturedProducts = () => {
   return (
     <div className="bg-slate-50 w-full">
       {/* Header - Silent Professional */}
-      <section className="bg-slate-800 py-6 md:py-10 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 mb-2">
-            <Sparkles className="w-3 h-3 text-slate-400" />
-            <span className="text-slate-300 text-xs">Premium Collection</span>
-          </div>
-          <h1 className="text-lg md:text-3xl font-bold text-white">
-            Featured <span className="text-slate-400">Excellence</span>
-          </h1>
-        </div>
-      </section>
+      
 
       {/* Products Section */}
       <section className="py-4 md:py-8 px-2 sm:px-4 bg-white">
@@ -218,16 +207,7 @@ const FeaturedProducts = () => {
               ))}
             </div>
           </div>
-        )}
-        <FeaturedProduct />
-
-        {/* View All Button */}
-        <div className="text-center mt-6">
-          <button onClick={() => navigate('/products')} className="px-5 py-2 rounded-full bg-slate-800 text-white text-sm hover:bg-slate-700 transition-colors inline-flex items-center gap-2">
-            View All Products
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
+        )}        
       </section>
 
       <style>{`.scrollbar-hide::-webkit-scrollbar{display:none}.scrollbar-hide{-ms-overflow-style:none;scrollbar-width:none}`}</style>
@@ -235,4 +215,4 @@ const FeaturedProducts = () => {
   );
 };
 
-export default FeaturedProducts;
+export default FeaturedProduct;
