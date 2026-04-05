@@ -5,7 +5,7 @@ import Categories from '../components/Categories.jsx'
 import CallToAction from '../components/CallToAction.jsx'
 import VideoShowCasePage from '../components/VideoUploadPage.jsx'
 import FeaturedItems from '../components/FeaturedItems.jsx'
-import FeaturedProducts from '../components/FeaturedProducts.jsx'
+import FeaturedProducts from '../components/FeaturedProduct.jsx'
 
 import OurProcess from '../components/OurProcess.jsx'
 import About from '../pages/About.jsx'

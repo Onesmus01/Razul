@@ -3,7 +3,7 @@ import { FaAngleLeft, FaAngleRight, FaStar, FaHeart, FaShoppingCart } from "reac
 import { Sparkles, TrendingUp, Zap, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import asset from "../assets/assets.js";
-import FeaturedProduct from "./FeaturedProducts.jsx";
+import FeaturedProduct from "./FeaturedProduct.jsx";
 
 const FeaturedProducts = () => {
   const mobileRef = useRef(null);
