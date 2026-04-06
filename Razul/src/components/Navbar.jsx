@@ -67,77 +67,77 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Main Navbar */}
+      {/* Main Navbar - THINNER */}
       <nav 
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
           scrolled 
-            ? 'bg-white/95 backdrop-blur-xl shadow-lg py-2' 
-            : 'bg-white/80 backdrop-blur-md py-3'
+            ? 'bg-white/95 backdrop-blur-xl shadow-md py-1.5' 
+            : 'bg-white/80 backdrop-blur-md py-2'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             
-            {/* Logo Section - Fixed white background */}
+            {/* Logo Section - Smaller */}
             <div
               onClick={() => navigate('/')}
-              className="flex items-center gap-3 cursor-pointer group"
+              className="flex items-center gap-2 cursor-pointer group"
             >
               <div className="relative">
-                {/* White background wrapper for logo */}
-                <div className="bg-white rounded-full p-1 shadow-md group-hover:shadow-xl transition-all duration-300">
+                {/* White background wrapper for logo - smaller */}
+                <div className="bg-white rounded-full p-0.5 shadow-sm group-hover:shadow-md transition-all duration-300">
                   <img
                     src={logo}
                     alt="Razul Logo"
-                    className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-full"
+                    className="w-8 h-8 sm:w-9 sm:h-9 object-cover rounded-full"
                   />
                 </div>
                 {/* Optional: Yellow accent ring on hover */}
                 <div className="absolute -inset-0.5 rounded-full bg-yellow-400/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
               </div>
               <span 
-                className="text-xl sm:text-2xl font-bold text-yellow-500 tracking-wide hidden sm:block"
+                className="text-lg sm:text-xl font-bold text-yellow-500 tracking-wide hidden sm:block"
                 style={{ fontFamily: `'Playfair Display', serif` }}
               >
                 Razul
               </span>
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - tighter padding */}
             <ul className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
                 <NavItemDesktop key={item.to} {...item} />
               ))}
             </ul>
 
-            {/* Mobile Actions + Menu Button */}
-            <div className="flex items-center gap-1 md:hidden">
-              {/* Mobile Action Icons - Visible on small screens */}
+            {/* Mobile Actions + Menu Button - smaller buttons */}
+            <div className="flex items-center gap-0.5 md:hidden">
+              {/* Mobile Action Icons - smaller */}
               {mobileActions.map((action, idx) => (
                 <button
                   key={idx}
                   onClick={action.onClick}
-                  className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300 active:scale-95"
+                  className="relative w-8 h-8 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300 active:scale-95"
                   aria-label={action.label}
                 >
-                  <action.icon className="w-5 h-5 text-gray-700" />
+                  <action.icon className="w-4 h-4 text-gray-700" />
                 </button>
               ))}
               
-              {/* Hamburger Menu Button */}
+              {/* Hamburger Menu Button - smaller */}
               <button
                 onClick={toggleMenu}
                 aria-label={open ? "Close Menu" : "Open Menu"}
-                className="relative w-10 h-10 flex items-center justify-center rounded-full bg-yellow-50 hover:bg-yellow-100 transition-all duration-300 active:scale-95 ml-1"
+                className="relative w-8 h-8 flex items-center justify-center rounded-full bg-yellow-50 hover:bg-yellow-100 transition-all duration-300 active:scale-95 ml-0.5"
               >
-                <div className="relative w-6 h-6">
+                <div className="relative w-5 h-5">
                   <Menu 
-                    className={`w-6 h-6 text-yellow-600 absolute transition-all duration-300 ${
+                    className={`w-5 h-5 text-yellow-600 absolute transition-all duration-300 ${
                       open ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'
                     }`} 
                   />
                   <X 
-                    className={`w-6 h-6 text-yellow-600 absolute transition-all duration-300 ${
+                    className={`w-5 h-5 text-yellow-600 absolute transition-all duration-300 ${
                       open ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
                     }`} 
                   />
@@ -145,33 +145,33 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Desktop Actions */}
-            <div className="hidden md:flex items-center gap-3">
+            {/* Desktop Actions - smaller */}
+            <div className="hidden md:flex items-center gap-2">
               <button 
                 onClick={() => navigate('/cart')}
-                className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300"
+                className="relative w-8 h-8 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300"
               >
-                <ShoppingCart className="w-5 h-5 text-gray-700" />
+                <ShoppingCart className="w-4 h-4 text-gray-700" />
               </button>
               <button 
                 onClick={() => navigate('/auth')}
-                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300"
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300"
               >
-                <User className="w-5 h-5 text-gray-700" />
+                <User className="w-4 h-4 text-gray-700" />
               </button>
             </div>
           </div>
         </div>
 
         {/* Mobile Search Bar - Expandable */}
-        <div className={`md:hidden overflow-hidden transition-all duration-300 ${searchOpen ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'}`}>
-          <div className="px-4 py-2 bg-gray-50 border-t border-gray-100">
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ${searchOpen ? 'max-h-14 opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className="px-4 py-1.5 bg-gray-50 border-t border-gray-100">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search products..."
-                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none text-sm"
+                placeholder="Search..."
+                className="w-full pl-9 pr-4 py-1.5 rounded-full border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none text-sm"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     navigate(`/search?q=${e.target.value}`);
@@ -198,19 +198,19 @@ export default function Navbar() {
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {/* Drawer Header */}
-        <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-yellow-50 to-white">
-          <div className="flex items-center gap-3">
-            {/* Logo with white bg in drawer too */}
-            <div className="bg-white rounded-full p-1 shadow-sm">
+        {/* Drawer Header - thinner */}
+        <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-yellow-50 to-white">
+          <div className="flex items-center gap-2">
+            {/* Logo with white bg in drawer too - smaller */}
+            <div className="bg-white rounded-full p-0.5 shadow-sm">
               <img
                 src={logo}
                 alt="Razul Logo"
-                className="w-10 h-10 object-cover rounded-full"
+                className="w-8 h-8 object-cover rounded-full"
               />
             </div>
             <span 
-              className="text-lg font-bold text-yellow-600"
+              className="text-base font-bold text-yellow-600"
               style={{ fontFamily: `'Playfair Display', serif` }}
             >
               Razul
@@ -218,31 +218,31 @@ export default function Navbar() {
           </div>
           <button
             onClick={() => setOpen(false)}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+            className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-4 h-4 text-gray-500" />
           </button>
         </div>
 
-        {/* Quick Stats in Drawer */}
-        <div className="grid grid-cols-3 gap-2 p-4 border-b border-gray-100">
-          <div className="text-center py-2">
+        {/* Quick Stats in Drawer - tighter */}
+        <div className="grid grid-cols-3 gap-2 p-3 border-b border-gray-100">
+          <div className="text-center py-1">
             <div className="text-xs text-gray-500">Cart</div>
-            <div className="font-bold text-yellow-600">0</div>
+            <div className="font-bold text-yellow-600 text-sm">0</div>
           </div>
-          <div className="text-center py-2 border-x border-gray-100">
+          <div className="text-center py-1 border-x border-gray-100">
             <div className="text-xs text-gray-500">Wishlist</div>
-            <div className="font-bold text-yellow-600">0</div>
+            <div className="font-bold text-yellow-600 text-sm">0</div>
           </div>
-          <div className="text-center py-2">
+          <div className="text-center py-1">
             <div className="text-xs text-gray-500">Orders</div>
-            <div className="font-bold text-yellow-600">0</div>
+            <div className="font-bold text-yellow-600 text-sm">0</div>
           </div>
         </div>
 
         {/* Drawer Navigation */}
-        <div className="p-4">
-          <ul className="space-y-2">
+        <div className="p-3">
+          <ul className="space-y-1">
             {navItems.map((item, index) => (
               <NavItemMobile 
                 key={item.to} 
@@ -255,27 +255,27 @@ export default function Navbar() {
         </div>
 
         {/* Drawer Footer */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-gray-50 to-white border-t border-gray-100">
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-50 to-white border-t border-gray-100">
           <p className="text-xs text-gray-400 text-center">
             © 2026 Razul. All rights reserved.
           </p>
         </div>
       </div>
 
-      {/* Spacer */}
-      <div className={`transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'} ${searchOpen ? 'h-28' : ''}`} />
+      {/* Spacer - adjusted for thinner navbar */}
+      <div className={`transition-all duration-300 ${scrolled ? 'h-12' : 'h-14'} ${searchOpen ? 'h-24' : ''}`} />
     </>
   );
 }
 
-// Desktop Nav Item
+// Desktop Nav Item - tighter padding
 function NavItemDesktop({ to, label, icon: Icon }) {
   return (
     <li>
       <NavLink
         to={to}
         className={({ isActive }) =>
-          `relative flex items-center gap-2 px-4 py-2 text-sm font-semibold tracking-wide rounded-full transition-all duration-300 group ${
+          `relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold tracking-wide rounded-full transition-all duration-300 group ${
             isActive
               ? 'text-yellow-600 bg-yellow-50'
               : 'text-gray-600 hover:text-yellow-600 hover:bg-yellow-50/50'
@@ -283,7 +283,7 @@ function NavItemDesktop({ to, label, icon: Icon }) {
         }
         style={{ fontFamily: `'Raleway', sans-serif` }}
       >
-        <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+        <Icon className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110" />
         <span>{label}</span>
         {({ isActive }) => isActive && (
           <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-yellow-500 rounded-full" />
@@ -293,7 +293,7 @@ function NavItemDesktop({ to, label, icon: Icon }) {
   );
 }
 
-// Mobile Nav Item
+// Mobile Nav Item - tighter padding
 function NavItemMobile({ to, label, icon: Icon, index, isOpen }) {
   return (
     <li 
@@ -305,7 +305,7 @@ function NavItemMobile({ to, label, icon: Icon, index, isOpen }) {
       <NavLink
         to={to}
         className={({ isActive }) =>
-          `flex items-center justify-between p-4 rounded-xl transition-all duration-300 ${
+          `flex items-center justify-between p-3 rounded-xl transition-all duration-300 ${
             isActive
               ? 'bg-yellow-50 text-yellow-600 shadow-sm border border-yellow-100'
               : 'text-gray-600 hover:bg-gray-50 hover:text-yellow-600'
@@ -313,13 +313,13 @@ function NavItemMobile({ to, label, icon: Icon, index, isOpen }) {
         }
         style={{ fontFamily: `'Raleway', sans-serif` }}
       >
-        <div className="flex items-center gap-3">
-          <div className={`p-2 rounded-lg ${
+        <div className="flex items-center gap-2">
+          <div className={`p-1.5 rounded-lg ${
             ({ isActive }) => isActive ? 'bg-yellow-100' : 'bg-gray-100'
           }`}>
-            <Icon className="w-5 h-5" />
+            <Icon className="w-4 h-4" />
           </div>
-          <span className="font-semibold">{label}</span>
+          <span className="font-semibold text-sm">{label}</span>
         </div>
         <ChevronRight className="w-4 h-4 text-gray-400" />
       </NavLink>
