@@ -10,7 +10,7 @@ export default function CallToAction() {
 
   // ❗ Leave WhatsApp link untouched
   const whatsappLink =
-    "https://wa.me/254110358002?text=Hello%20Razul%20Team,%20I%20need%20a%20custom%20machine%20setup.";
+    "https://wa.me/254110358002?text=Hello%20Razul%20Team ,%20I%20need%20a%20custom%20machine%20setup.";
 
   return (
     <section className="relative overflow-hidden py-28 px-6 sm:px-12 text-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
@@ -44,7 +44,7 @@ export default function CallToAction() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
           <button
             onClick={handleFormClick}
-            className="px-9 py-3 rounded-full bg-white text-slate-900 text-lg font-semibold shadow-lg hover:bg-slate-100 transition-all duration-300 hover:scale-105"
+            className="px-9 py-3 rounded-full bg-white text-slate-900 text-lg font-semibold shadow-lg hover:bg-slate-100 transition-all duration-300"
           >
             Request Setup Form
           </button>
@@ -53,7 +53,7 @@ export default function CallToAction() {
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-9 py-3 rounded-full bg-emerald-500 text-white text-lg font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 hover:scale-105"
+            className="flex items-center gap-3 px-9 py-3 rounded-full bg-emerald-500 text-white text-lg font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300"
           >
             <PhoneCall className="w-5 h-5" />
             Chat via WhatsApp

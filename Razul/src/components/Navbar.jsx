@@ -1,11 +1,15 @@
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Menu, X, Home, Info, Phone, LogIn, ChevronRight } from 'lucide-react';
+import { 
+  Menu, X, Home, Info, Phone, LogIn, ChevronRight, 
+  ShoppingCart, Search, User, Heart 
+} from 'lucide-react';
 import logo from '../assets/logo.jpg';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -42,6 +46,25 @@ export default function Navbar() {
     { to: "/auth", label: "Login", icon: LogIn },
   ];
 
+  // Quick actions for mobile - no API dependencies
+  const mobileActions = [
+    { 
+      icon: Search, 
+      onClick: () => setSearchOpen(!searchOpen), 
+      label: "Search"
+    },
+    { 
+      icon: Heart, 
+      onClick: () => navigate('/wishlist'), 
+      label: "Wishlist"
+    },
+    { 
+      icon: ShoppingCart, 
+      onClick: () => navigate('/cart'), 
+      label: "Cart"
+    },
+  ];
+
   return (
     <>
       {/* Main Navbar */}
@@ -49,24 +72,28 @@ export default function Navbar() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
           scrolled 
             ? 'bg-white/95 backdrop-blur-xl shadow-lg py-2' 
-            : 'bg-white/80 backdrop-blur-md py-4'
+            : 'bg-white/80 backdrop-blur-md py-3'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             
-            {/* Logo Section */}
+            {/* Logo Section - Fixed white background */}
             <div
               onClick={() => navigate('/')}
               className="flex items-center gap-3 cursor-pointer group"
             >
               <div className="relative">
-                <img
-                  src={logo}
-                  alt="Razul Logo"
-                  className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-full shadow-md group-hover:shadow-xl transition-all duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 rounded-full bg-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                {/* White background wrapper for logo */}
+                <div className="bg-white rounded-full p-1 shadow-md group-hover:shadow-xl transition-all duration-300">
+                  <img
+                    src={logo}
+                    alt="Razul Logo"
+                    className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-full"
+                  />
+                </div>
+                {/* Optional: Yellow accent ring on hover */}
+                <div className="absolute -inset-0.5 rounded-full bg-yellow-400/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
               </div>
               <span 
                 className="text-xl sm:text-2xl font-bold text-yellow-500 tracking-wide hidden sm:block"
@@ -83,25 +110,76 @@ export default function Navbar() {
               ))}
             </ul>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={toggleMenu}
-              aria-label={open ? "Close Menu" : "Open Menu"}
-              className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-full bg-yellow-50 hover:bg-yellow-100 transition-all duration-300 active:scale-95"
-            >
-              <div className="relative w-6 h-6">
-                <Menu 
-                  className={`w-6 h-6 text-yellow-600 absolute transition-all duration-300 ${
-                    open ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'
-                  }`} 
-                />
-                <X 
-                  className={`w-6 h-6 text-yellow-600 absolute transition-all duration-300 ${
-                    open ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
-                  }`} 
-                />
-              </div>
-            </button>
+            {/* Mobile Actions + Menu Button */}
+            <div className="flex items-center gap-1 md:hidden">
+              {/* Mobile Action Icons - Visible on small screens */}
+              {mobileActions.map((action, idx) => (
+                <button
+                  key={idx}
+                  onClick={action.onClick}
+                  className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300 active:scale-95"
+                  aria-label={action.label}
+                >
+                  <action.icon className="w-5 h-5 text-gray-700" />
+                </button>
+              ))}
+              
+              {/* Hamburger Menu Button */}
+              <button
+                onClick={toggleMenu}
+                aria-label={open ? "Close Menu" : "Open Menu"}
+                className="relative w-10 h-10 flex items-center justify-center rounded-full bg-yellow-50 hover:bg-yellow-100 transition-all duration-300 active:scale-95 ml-1"
+              >
+                <div className="relative w-6 h-6">
+                  <Menu 
+                    className={`w-6 h-6 text-yellow-600 absolute transition-all duration-300 ${
+                      open ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'
+                    }`} 
+                  />
+                  <X 
+                    className={`w-6 h-6 text-yellow-600 absolute transition-all duration-300 ${
+                      open ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
+                    }`} 
+                  />
+                </div>
+              </button>
+            </div>
+
+            {/* Desktop Actions */}
+            <div className="hidden md:flex items-center gap-3">
+              <button 
+                onClick={() => navigate('/cart')}
+                className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300"
+              >
+                <ShoppingCart className="w-5 h-5 text-gray-700" />
+              </button>
+              <button 
+                onClick={() => navigate('/auth')}
+                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-300"
+              >
+                <User className="w-5 h-5 text-gray-700" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Search Bar - Expandable */}
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ${searchOpen ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className="px-4 py-2 bg-gray-50 border-t border-gray-100">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none text-sm"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    navigate(`/search?q=${e.target.value}`);
+                    setSearchOpen(false);
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
       </nav>
@@ -123,11 +201,14 @@ export default function Navbar() {
         {/* Drawer Header */}
         <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-yellow-50 to-white">
           <div className="flex items-center gap-3">
-            <img
-              src={logo}
-              alt="Razul Logo"
-              className="w-10 h-10 object-cover rounded-full shadow-sm"
-            />
+            {/* Logo with white bg in drawer too */}
+            <div className="bg-white rounded-full p-1 shadow-sm">
+              <img
+                src={logo}
+                alt="Razul Logo"
+                className="w-10 h-10 object-cover rounded-full"
+              />
+            </div>
             <span 
               className="text-lg font-bold text-yellow-600"
               style={{ fontFamily: `'Playfair Display', serif` }}
@@ -141,6 +222,22 @@ export default function Navbar() {
           >
             <X className="w-5 h-5 text-gray-500" />
           </button>
+        </div>
+
+        {/* Quick Stats in Drawer */}
+        <div className="grid grid-cols-3 gap-2 p-4 border-b border-gray-100">
+          <div className="text-center py-2">
+            <div className="text-xs text-gray-500">Cart</div>
+            <div className="font-bold text-yellow-600">0</div>
+          </div>
+          <div className="text-center py-2 border-x border-gray-100">
+            <div className="text-xs text-gray-500">Wishlist</div>
+            <div className="font-bold text-yellow-600">0</div>
+          </div>
+          <div className="text-center py-2">
+            <div className="text-xs text-gray-500">Orders</div>
+            <div className="font-bold text-yellow-600">0</div>
+          </div>
         </div>
 
         {/* Drawer Navigation */}
@@ -166,7 +263,7 @@ export default function Navbar() {
       </div>
 
       {/* Spacer */}
-      <div className={`transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'}`} />
+      <div className={`transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'} ${searchOpen ? 'h-28' : ''}`} />
     </>
   );
 }
