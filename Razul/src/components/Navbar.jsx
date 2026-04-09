@@ -89,7 +89,7 @@ export default function Navbar() {
                   <img
                     src={logo}
                     alt="Razul Logo"
-                    className="w-24 h-16 sm:w-20 sm:h-12 md:h-12 md:w-20 brightness-150 rounded-lg  object-cover"
+                    className="w-36 h-16 sm:w-20 sm:h-12 md:h-12 md:w-20 brightness-125 rounded-lg  object-cover"
                   />
                 </div>
                 {/* Yellow accent on hover */}
