@@ -17,7 +17,7 @@ const App = () => {
       {/* Navbar */}
       <Navbar />
       <ContactFloatButton />
-      <NewsLetter />
+      {/* <NewsLetter /> */}
 
       {/* Main Content */}
       <main className="flex-grow px-1 md:px-2 py-1 md:py-2">

@@ -7,188 +7,93 @@ import { Sparkles, Zap, TrendingUp, ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import asset from "../assets/assets.js";
 
-// MULTIPLE DUMMY PRODUCTS - Each ID has different data
-const allProductsData = {
-  1: {
-    id: 1,
-    name: "Industrial Precision Machine X1",
-    subtitle: "Professional Grade Equipment",
-    price: 1299,
-    originalPrice: 1599,
-    discount: 18,
-    rating: 4.8,
-    reviews: 124,
-    stock: 15,
-    sku: "MACH-X1-2024",
-    category: "Industrial Machines",
-    description: "Experience unmatched precision with the X1 series. Built for professionals who demand excellence, this machine combines cutting-edge technology with robust construction.",
-    features: [
-      "CNC Precision Control System",
-      "24/7 Operation Capability",
-      "Energy Efficient Motor",
-      "Digital Display Interface",
-      "Safety Lock Mechanism",
-      "2-Year Warranty Included"
-    ],
-    specifications: {
-      "Power": "2200W",
-      "Voltage": "220V/110V",
-      "Weight": "45kg",
-      "Dimensions": "60x40x50cm",
-      "Material": "Stainless Steel",
-      "Warranty": "2 Years"
-    },
-    imageIndex: 0, // Uses asset[0]
-    badge: "Best"
-  },
-  2: {
-    id: 2,
-    name: "Machine Pro V2",
-    subtitle: "Advanced Automation System",
-    price: 1499,
-    originalPrice: 1899,
-    discount: 21,
-    rating: 4.9,
-    reviews: 89,
-    stock: 8,
-    sku: "PRO-V2-2024",
-    category: "Industrial Machines",
-    description: "The Pro V2 brings advanced automation to your workshop. Featuring AI-assisted calibration and remote monitoring capabilities.",
-    features: [
-      "AI-Assisted Calibration",
-      "Remote Monitoring App",
-      "Auto-Shutoff Safety",
-      "Precision Laser Guide",
-      "Extended 3-Year Warranty",
-      "Cloud Sync Capability"
-    ],
-    specifications: {
-      "Power": "2800W",
-      "Voltage": "220V/380V",
-      "Weight": "52kg",
-      "Dimensions": "65x45x55cm",
-      "Material": "Industrial Aluminum",
-      "Warranty": "3 Years"
-    },
-    imageIndex: 1, // Uses asset[1]
-    badge: "New"
-  },
-  3: {
-    id: 3,
-    name: "Compact Unit C3",
-    subtitle: "Space-Saving Powerhouse",
-    price: 899,
-    originalPrice: 1099,
-    discount: 18,
-    rating: 4.6,
-    reviews: 256,
-    stock: 42,
-    sku: "COMP-C3-2024",
-    category: "Compact Units",
-    description: "Don't let the size fool you. The C3 delivers professional-grade performance in a compact footprint perfect for small workshops.",
-    features: [
-      "Compact 40cm Footprint",
-      "Quick-Change Attachments",
-      "Quiet Operation Mode",
-      "LED Work Lighting",
-      "Portable Design",
-      "1-Year Warranty"
-    ],
-    specifications: {
-      "Power": "1500W",
-      "Voltage": "110V/220V",
-      "Weight": "28kg",
-      "Dimensions": "40x35x40cm",
-      "Material": "Carbon Steel",
-      "Warranty": "1 Year"
-    },
-    imageIndex: 2, // Uses asset[2]
-    badge: "Hot"
-  },
-  4: {
-    id: 4,
-    name: "Heavy Duty H1",
-    subtitle: "Industrial Strength Beast",
-    price: 1899,
-    originalPrice: 2299,
-    discount: 17,
-    rating: 4.7,
-    reviews: 67,
-    stock: 5,
-    sku: "HEAVY-H1-2024",
-    category: "Heavy Duty",
-    description: "Built for the toughest jobs. The H1 handles extreme workloads with ease. Reinforced frame and heavy-duty components ensure longevity.",
-    features: [
-      "5-Ton Capacity",
-      "Reinforced Steel Frame",
-      "Hydraulic Assist",
-      "Thermal Protection",
-      "Industrial Grade Motor",
-      "5-Year Warranty"
-    ],
-    specifications: {
-      "Power": "3500W",
-      "Voltage": "380V Three-Phase",
-      "Weight": "85kg",
-      "Dimensions": "80x60x70cm",
-      "Material": "Reinforced Steel",
-      "Warranty": "5 Years"
-    },
-    imageIndex: 3, // Uses asset[3]
-    badge: null
-  },
-  5: {
-    id: 5,
-    name: "Smart Unit S4",
-    subtitle: "IoT Enabled Smart Machine",
-    price: 1199,
-    originalPrice: 1399,
-    discount: 14,
-    rating: 4.5,
-    reviews: 198,
-    stock: 23,
-    sku: "SMART-S4-2024",
-    category: "Smart Units",
-    description: "The future of machining is here. Full IoT integration allows you to monitor and control operations from anywhere via the mobile app.",
-    features: [
-      "Full IoT Integration",
-      "Mobile App Control",
-      "Predictive Maintenance",
-      "Energy Usage Analytics",
-      "Voice Command Ready",
-      "2-Year Warranty"
-    ],
-    specifications: {
-      "Power": "2000W",
-      "Voltage": "220V",
-      "Weight": "38kg",
-      "Dimensions": "55x40x45cm",
-      "Material": "Composite Alloy",
-      "Warranty": "2 Years"
-    },
-    imageIndex: 4, // Uses asset[4]
-    badge: "New"
+// ✅ DEBUG: Check asset import immediately
+console.log('=== ASSET DEBUG ===');
+console.log('Raw asset object:', asset);
+console.log('Asset keys:', Object.keys(asset));
+console.log('Asset values:', Object.values(asset));
+console.log('Asset length:', Object.values(asset).length);
+
+// ✅ GENERATE ALL 72 PRODUCTS DYNAMICALLY
+const generateProducts = () => {
+  const products = {};
+  const assetImages = Object.values(asset);
+  const totalImages = assetImages.length;
+  
+  console.log('Generating products for', totalImages, 'images');
+  
+  const categories = ["Industrial Machines", "Compact Units", "Heavy Duty", "Smart Units", "Precision Tools"];
+  const badges = ["Best", "New", "Hot", null, null];
+  const adjectives = ["Industrial", "Pro", "Smart", "Heavy Duty", "Compact", "Precision", "Advanced", "Ultimate"];
+  const nouns = ["Machine", "Unit", "System", "Equipment", "Tool", "Device"];
+  
+  for (let i = 0; i < totalImages; i++) {
+    const id = i + 1;
+    const category = categories[i % categories.length];
+    const badge = badges[i % badges.length];
+    const adj = adjectives[i % adjectives.length];
+    const noun = nouns[i % nouns.length];
+    
+    products[id] = {
+      id: id,
+      name: `${adj} ${noun} ${id}`,
+      subtitle: `Professional Grade ${category}`,
+      price: 899 + (i * 50),
+      originalPrice: 1099 + (i * 50),
+      discount: [10, 15, 18, 20, 25][i % 5],
+      rating: (4.0 + (i % 10) / 10).toFixed(1),
+      reviews: 50 + (i * 3),
+      stock: 5 + (i % 20),
+      sku: `SKU-${id.toString().padStart(4, '0')}-2024`,
+      category: category,
+      description: `Experience top-tier performance with our ${adj} ${noun} ${id}. Designed for professionals who demand excellence in ${category.toLowerCase()}.`,
+      features: [
+        "Premium Build Quality",
+        "Energy Efficient Design",
+        "User-Friendly Interface",
+        "Safety Certified",
+        "2-Year Warranty",
+        "24/7 Support"
+      ],
+      specifications: {
+        "Model": `${adj}-${id}`,
+        "Category": category,
+        "Power": `${1500 + (i * 50)}W`,
+        "Voltage": "220V/110V",
+        "Weight": `${25 + (i % 30)}kg`,
+        "Dimensions": `${40 + (i % 20)}x${35 + (i % 15)}x${40 + (i % 10)}cm`,
+        "Material": ["Stainless Steel", "Aluminum", "Carbon Steel", "Titanium"][i % 4],
+        "Warranty": "2 Years"
+      },
+      imageIndex: i,
+      badge: badge
+    };
   }
+  
+  return products;
 };
 
-// Get related products (excluding current)
+const allProductsData = generateProducts();
+
 const getRelatedProducts = (currentId) => {
-  return Object.values(allProductsData)
-    .filter(p => p.id !== parseInt(currentId))
+  const allProducts = Object.values(allProductsData);
+  const current = parseInt(currentId);
+  
+  return allProducts
+    .filter(p => p.id !== current)
+    .sort(() => 0.5 - Math.random())
     .slice(0, 4);
 };
 
-// Reviews generator based on product ID
 const getReviews = (productId) => {
   const reviewTemplates = [
-    { user: "John M.", rating: 5, date: "2 days ago", comment: "Exceptional build quality. Exceeded expectations!" },
-    { user: "Sarah K.", rating: 4, date: "1 week ago", comment: "Great machine, but setup took longer than expected." },
-    { user: "Mike R.", rating: 5, date: "2 weeks ago", comment: "Best investment for my workshop. Highly recommend." },
-    { user: "Lisa T.", rating: 5, date: "3 days ago", comment: "Works perfectly. Customer service was excellent." },
-    { user: "David Chen", rating: 4, date: "5 days ago", comment: "Good value for money. Would buy again." }
+    { user: "John M.", rating: 5, date: "2 days ago", comment: "Exceptional build quality!" },
+    { user: "Sarah K.", rating: 4, date: "1 week ago", comment: "Great machine, easy setup." },
+    { user: "Mike R.", rating: 5, date: "2 weeks ago", comment: "Best investment!" },
+    { user: "Lisa T.", rating: 5, date: "3 days ago", comment: "Works perfectly." },
+    { user: "David Chen", rating: 4, date: "5 days ago", comment: "Good value." }
   ];
   
-  // Return different reviews based on product ID
   const startIndex = (productId - 1) % reviewTemplates.length;
   return [
     reviewTemplates[startIndex],
@@ -204,21 +109,53 @@ const ProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [isLiked, setIsLiked] = useState(false);
   const [activeTab, setActiveTab] = useState('description');
+  const [imageLoadErrors, setImageLoadErrors] = useState({});
   
-  // Get product data based on ID from URL
-  const product = allProductsData[id] || allProductsData[1]; // Fallback to product 1 if not found
+  // ✅ DEBUG LOGGING
+  useEffect(() => {
+    console.log('=== PRODUCT DETAILS DEBUG ===');
+    console.log('URL ID param:', id);
+    console.log('Product found:', allProductsData[id]);
+    console.log('Asset images count:', Object.values(asset).length);
+    console.log('First image:', Object.values(asset)[0]);
+    console.log('Image for this product:', Object.values(asset)[(id - 1) % Object.values(asset).length]);
+  }, [id]);
+
+  const product = allProductsData[id];
+  
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">Product Not Found</h1>
+          <p className="text-slate-600 mb-4">Product #{id} doesn't exist</p>
+          <button 
+            onClick={() => navigate('/')}
+            className="px-6 py-2 bg-slate-800 text-white rounded-full hover:bg-slate-700"
+          >
+            Go Home
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
   const relatedProducts = getRelatedProducts(id);
   const reviews = getReviews(product.id);
   
-  // Get available images for this product (current + next 4 images)
   const assetImages = Object.values(asset);
   const productImages = [
-    assetImages[product.imageIndex],
+    assetImages[product.imageIndex % assetImages.length],
     assetImages[(product.imageIndex + 1) % assetImages.length],
     assetImages[(product.imageIndex + 2) % assetImages.length],
     assetImages[(product.imageIndex + 3) % assetImages.length],
     assetImages[(product.imageIndex + 4) % assetImages.length]
   ];
+
+  const handleImageError = (imgIndex, imgSrc) => {
+    console.error(`❌ Image ${imgIndex} failed to load:`, imgSrc);
+    setImageLoadErrors(prev => ({ ...prev, [imgIndex]: true }));
+  };
 
   const decreaseQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
   const increaseQuantity = () => setQuantity(prev => Math.min(product.stock, prev + 1));
@@ -276,7 +213,7 @@ const ProductDetailsPage = () => {
         {/* Main Product Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           
-          {/* Image Gallery */}
+          {/* Image Gallery - WITH ERROR HANDLING */}
           <div className="space-y-4">
             <div className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden aspect-square group">
               {product.discount > 0 && (
@@ -292,11 +229,23 @@ const ProductDetailsPage = () => {
                 </div>
               )}
               
-              <img 
-                src={productImages[selectedImage]} 
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
+              {/* ✅ MAIN IMAGE WITH ERROR HANDLING */}
+              {productImages[selectedImage] && !imageLoadErrors[selectedImage] ? (
+                <img 
+                  src={productImages[selectedImage]} 
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                  onError={() => handleImageError(selectedImage, productImages[selectedImage])}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
+                  <div className="text-center">
+                    <p className="text-4xl mb-2">🖼️</p>
+                    <p className="text-sm">Image not found</p>
+                    <p className="text-xs mt-1">Path: {productImages[selectedImage] || 'undefined'}</p>
+                  </div>
+                </div>
+              )}
               
               <button 
                 onClick={prevImage}
@@ -312,6 +261,7 @@ const ProductDetailsPage = () => {
               </button>
             </div>
 
+            {/* Thumbnail Gallery */}
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
               {productImages.map((img, idx) => (
                 <button
@@ -321,7 +271,18 @@ const ProductDetailsPage = () => {
                     selectedImage === idx ? 'border-slate-800' : 'border-slate-200'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  {img && !imageLoadErrors[idx] ? (
+                    <img 
+                      src={img} 
+                      alt="" 
+                      className="w-full h-full object-cover"
+                      onError={() => handleImageError(idx, img)}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400 text-xs">
+                      No img
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
@@ -375,28 +336,42 @@ const ProductDetailsPage = () => {
               ))}
             </div>
 
-            {/* Quantity & Add to Cart */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-slate-200">
-              <div className="flex items-center border border-slate-300 rounded-full px-1">
-                <button 
-                  onClick={decreaseQuantity}
-                  className="w-10 h-10 flex items-center justify-center text-slate-600 hover:text-slate-900"
-                >
-                  <FaMinus className="w-3 h-3" />
-                </button>
-                <span className="w-12 text-center font-semibold text-slate-900">{quantity}</span>
-                <button 
-                  onClick={increaseQuantity}
-                  className="w-10 h-10 flex items-center justify-center text-slate-600 hover:text-slate-900"
-                >
-                  <FaPlus className="w-3 h-3" />
-                </button>
+            {/* Price & Add to Cart */}
+            <div className="pt-4 border-t border-slate-200">
+              <div className="flex items-baseline gap-3 mb-4">
+                <span className="text-3xl font-bold text-slate-900">${product.price.toLocaleString()}</span>
+                {product.originalPrice > product.price && (
+                  <>
+                    <span className="text-lg text-slate-400 line-through">${product.originalPrice.toLocaleString()}</span>
+                    <span className="px-2 py-1 rounded-full bg-rose-100 text-rose-700 text-sm font-medium">
+                      Save ${(product.originalPrice - product.price).toLocaleString()}
+                    </span>
+                  </>
+                )}
               </div>
 
-              <button className="flex-1 bg-slate-800 text-white rounded-full py-3 px-6 font-semibold hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
-                <FaShoppingCart className="w-4 h-4" />
-                Add to Cart
-              </button>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex items-center border border-slate-300 rounded-full px-1">
+                  <button 
+                    onClick={decreaseQuantity}
+                    className="w-10 h-10 flex items-center justify-center text-slate-600 hover:text-slate-900"
+                  >
+                    <FaMinus className="w-3 h-3" />
+                  </button>
+                  <span className="w-12 text-center font-semibold text-slate-900">{quantity}</span>
+                  <button 
+                    onClick={increaseQuantity}
+                    className="w-10 h-10 flex items-center justify-center text-slate-600 hover:text-slate-900"
+                  >
+                    <FaPlus className="w-3 h-3" />
+                  </button>
+                </div>
+
+                <button className="flex-1 bg-slate-800 text-white rounded-full py-3 px-6 font-semibold hover:bg-slate-700 transition-colors flex items-center justify-center gap-2">
+                  <FaShoppingCart className="w-4 h-4" />
+                  Add to Cart - ${(product.price * quantity).toLocaleString()}
+                </button>
+              </div>
             </div>
 
             {/* Trust Badges */}
@@ -471,10 +446,10 @@ const ProductDetailsPage = () => {
 
             {activeTab === 'reviews' && (
               <div className="space-y-6">
-                <div className="flex flex-col md:flex-row gap-8 pb-6 border-b border-slate-200">
-                  <div className="text-center md:text-left">
+                <div className="flex items-center justify-between pb-6 border-b border-slate-200">
+                  <div>
                     <div className="text-4xl font-bold text-slate-900 mb-1">{product.rating}</div>
-                    <div className="flex justify-center md:justify-start gap-1 mb-1">
+                    <div className="flex gap-1 mb-1">
                       {[...Array(5)].map((_, i) => (
                         <FaStar 
                           key={i} 
@@ -483,19 +458,6 @@ const ProductDetailsPage = () => {
                       ))}
                     </div>
                     <div className="text-sm text-slate-500">Based on {product.reviews} reviews</div>
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    {[5, 4, 3, 2, 1].map((stars) => (
-                      <div key={stars} className="flex items-center gap-3">
-                        <span className="text-sm text-slate-600 w-8">{stars} star</span>
-                        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-amber-400 rounded-full" 
-                            style={{ width: `${stars === 5 ? 70 : stars === 4 ? 20 : 10}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 </div>
 
@@ -534,7 +496,7 @@ const ProductDetailsPage = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {relatedProducts.map((prod) => {
               const badge = getBadge(prod.badge);
-              const prodImage = Object.values(asset)[prod.imageIndex];
+              const prodImage = assetImages[prod.imageIndex];
               
               return (
                 <div 
@@ -543,10 +505,24 @@ const ProductDetailsPage = () => {
                     navigate(`/product/${prod.id}`);
                     window.scrollTo(0, 0);
                   }}
-                  className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
+                  className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer"
                 >
                   <div className="relative aspect-[4/3] bg-slate-100">
-                    <img src={prodImage} alt={prod.name} className="w-full h-full object-cover" />
+                    {prodImage && !imageLoadErrors[`related-${prod.id}`] ? (
+                      <img 
+                        src={prodImage} 
+                        alt={prod.name} 
+                        className="w-full h-full object-cover"
+                        onError={() => {
+                          console.error(`Related product ${prod.id} image failed`);
+                          setImageLoadErrors(prev => ({ ...prev, [`related-${prod.id}`]: true }));
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
+                        No Image
+                      </div>
+                    )}
                     {badge && (
                       <div className={`absolute top-2 left-2 px-2 py-0.5 rounded-full bg-gradient-to-r ${badge.color} text-white text-xs font-bold flex items-center gap-1`}>
                         <badge.icon className="w-3 h-3" />
@@ -555,17 +531,8 @@ const ProductDetailsPage = () => {
                     )}
                   </div>
                   <div className="p-3">
-                    <div className="flex items-center gap-0.5 mb-1">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar 
-                          key={i} 
-                          className={`w-3 h-3 ${i < Math.floor(prod.rating) ? 'text-amber-400 fill-amber-400' : 'text-slate-200'}`} 
-                        />
-                      ))}
-                      <span className="text-xs text-slate-500 ml-1">({prod.rating})</span>
-                    </div>
                     <h3 className="text-sm font-semibold text-slate-800 mb-1 truncate">{prod.name}</h3>
-                    <p className="text-xs text-slate-500 mb-2 line-clamp-1">{prod.subtitle}</p>
+                    <p className="text-xs text-slate-500 mb-2">${prod.price.toLocaleString()}</p>
                   </div>
                 </div>
               );

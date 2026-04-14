@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { FaPlay, FaHeart, FaEye, FaClock, FaTimes } from 'react-icons/fa';
 import { TrendingUp, Sparkles, Zap, Film } from 'lucide-react';
@@ -8,6 +7,7 @@ const FeaturedVideos = () => {
   const [likedVideos, setLikedVideos] = useState(new Set());
   const [activeVideo, setActiveVideo] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [failedThumbnails, setFailedThumbnails] = useState(new Set());
   const videoRef = useRef(null);
 
   const videoList = Object.values(videos).map((src, i) => ({
@@ -15,6 +15,8 @@ const FeaturedVideos = () => {
     title: `Tutorial ${i + 1}`,
     description: `Learn advanced techniques and professional workflows.`,
     src,
+    // iOS fix: Add #t=0.001 to force thumbnail generation
+    thumbnailSrc: `${src}#t=0.001`,
     duration: `${(5 + i * 2)}:${(10 + i * 5) % 60}`.padStart(2, '0'),
     views: `${(1.2 + i * 0.3).toFixed(1)}k`,
   }));
@@ -37,6 +39,10 @@ const FeaturedVideos = () => {
     setActiveVideo(null);
     setIsPlaying(false);
     videoRef.current?.pause();
+  };
+
+  const handleThumbnailError = (id) => {
+    setFailedThumbnails(prev => new Set(prev).add(id));
   };
 
   const getBadge = (idx) => {
@@ -69,35 +75,52 @@ const FeaturedVideos = () => {
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5 max-w-7xl mx-auto">
           {videoList.map((video, idx) => {
             const badge = getBadge(idx);
+            const hasFailed = failedThumbnails.has(video.id);
+            
             return (
               <div
                 key={video.id}
                 onClick={() => openVideo(video)}
                 className="group cursor-pointer bg-slate-800/50 rounded-xl overflow-hidden border border-white/5 hover:border-blue-500/30 hover:bg-slate-800 transition-all duration-300 hover:-translate-y-1"
               >
-                {/* Thumbnail */}
+                {/* Thumbnail - iOS Compatible */}
                 <div className="relative aspect-video overflow-hidden bg-slate-900">
+                  {/* Fallback gradient background if video thumbnail fails */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900" />
+                  
+                  {/* Video element with iOS fix #t=0.001 */}
                   <video
-                    src={video.src}
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                    src={video.thumbnailSrc}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
+                      hasFailed ? 'opacity-0' : 'opacity-80 group-hover:opacity-100 group-hover:scale-105'
+                    }`}
                     preload="metadata"
                     muted
                     playsInline
+                    onError={() => handleThumbnailError(video.id)}
                   />
+                  
+                  {/* Play button overlay */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all">
                     <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-white/20 backdrop-blur group-hover:bg-blue-600/80 group-hover:scale-110 transition-all duration-300">
                       <FaPlay className="w-3 h-3 md:w-4 md:h-4 text-white fill-white ml-0.5" />
                     </div>
                   </div>
+                  
+                  {/* Duration badge */}
                   <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-black/60 text-slate-200 text-[10px] font-medium">
                     {video.duration}
                   </div>
+                  
+                  {/* Badge */}
                   {badge && (
                     <div className={`absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r ${badge.color} text-white text-[9px] font-bold shadow-lg`}>
                       <badge.icon className="w-2.5 h-2.5" />
                       {badge.text}
                     </div>
                   )}
+                  
+                  {/* Like button */}
                   <button
                     onClick={(e) => toggleLike(video.id, e)}
                     className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-all active:scale-90"

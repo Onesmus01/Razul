@@ -16,10 +16,13 @@ const FeaturedProducts = () => {
   const [canScrollMobile, setCanScrollMobile] = useState({ left: false, right: true });
   const [canScrollDesktop, setCanScrollDesktop] = useState({ left: false, right: true });
 
+  // Convert asset object to array (72 items)
   const images = Object.values(asset);
-  const totalItems = images.length;
-  const maxMobileIndex = Math.ceil(totalItems / 2) - 1;
-  const maxDesktopIndex = Math.ceil(totalItems / 4) - 1;
+  const totalItems = images.length; // Should be 72
+  
+  // Pagination calculations
+  const maxMobileIndex = Math.max(0, Math.ceil(totalItems / 2) - 1);
+  const maxDesktopIndex = Math.max(0, Math.ceil(totalItems / 4) - 1);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -32,7 +35,10 @@ const FeaturedProducts = () => {
     if (!ref.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = ref.current;
     const maxScroll = scrollWidth - clientWidth;
-    setCanScroll({ left: scrollLeft > 10, right: scrollLeft < maxScroll - 10 });
+    setCanScroll({ 
+      left: scrollLeft > 10, 
+      right: scrollLeft < maxScroll - 10 
+    });
   }, []);
 
   const handleMobileScroll = useCallback(() => {
@@ -77,8 +83,11 @@ const FeaturedProducts = () => {
     });
   };
 
+  // CRITICAL: Navigate with the correct ID (1-72)
   const handleProductClick = (idx) => {
-    navigate(`/product/${idx + 1}`);
+    const productId = idx + 1; // Converts 0-71 to 1-72
+    console.log(`Navigating to product ${productId} of ${totalItems}`); // Debug
+    navigate(`/product/${productId}`);
   };
 
   const getBadge = (idx) => {
@@ -88,14 +97,19 @@ const FeaturedProducts = () => {
     return null;
   };
 
+  // Debug: Log total items
+  useEffect(() => {
+    console.log(`Total products loaded: ${totalItems}`);
+  }, [totalItems]);
+
   return (
     <div className="bg-slate-50 w-full">
-      {/* Header - Silent Professional */}
+      {/* Header */}
       <section className="bg-slate-800 py-6 md:py-10 px-4 text-center">
         <div className="max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 mb-2">
             <Sparkles className="w-3 h-3 text-slate-400" />
-            <span className="text-slate-300 text-xs">Premium Collection</span>
+            <span className="text-slate-300 text-xs">Premium Collection ({totalItems} Products)</span>
           </div>
           <h1 className="text-lg md:text-3xl font-bold text-white">
             Featured <span className="text-slate-400">Excellence</span>
@@ -105,16 +119,17 @@ const FeaturedProducts = () => {
 
       {/* Products Section */}
       <section className="py-4 md:py-8 px-2 sm:px-4 bg-white">
-        {/* Mobile */}
+        
+        {/* Mobile View */}
         {isMobile && (
           <div className="w-full">
             <div className="flex justify-between items-center mb-3 px-1">
               <button onClick={mobilePrev} disabled={!canScrollMobile.left} className="w-8 h-8 rounded-full bg-slate-100 text-slate-700 disabled:opacity-30 flex items-center justify-center">
                 <FaAngleLeft size={16} />
               </button>
-              <div className="flex gap-1">
+              <div className="flex gap-1 overflow-x-auto max-w-[60%]">
                 {[...Array(maxMobileIndex + 1)].map((_, idx) => (
-                  <button key={idx} onClick={() => scrollToIndex(mobileRef, idx, true)} className={`h-1 rounded-full transition-all ${mobileIndex === idx ? 'w-4 bg-slate-800' : 'w-1 bg-slate-300'}`} />
+                  <button key={idx} onClick={() => scrollToIndex(mobileRef, idx, true)} className={`h-1 rounded-full transition-all flex-shrink-0 ${mobileIndex === idx ? 'w-4 bg-slate-800' : 'w-1 bg-slate-300'}`} />
                 ))}
               </div>
               <button onClick={mobileNext} disabled={!canScrollMobile.right} className="w-8 h-8 rounded-full bg-slate-100 text-slate-700 disabled:opacity-30 flex items-center justify-center">
@@ -122,7 +137,7 @@ const FeaturedProducts = () => {
               </button>
             </div>
 
-            <div ref={mobileRef} onScroll={handleMobileScroll} className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-2" style={{ scrollbarWidth: 'none' }}>
+            <div ref={mobileRef} onScroll={handleMobileScroll} className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-2 pb-2" style={{ scrollbarWidth: 'none' }}>
               {images.map((img, idx) => {
                 const badge = getBadge(idx);
                 return (
@@ -161,7 +176,7 @@ const FeaturedProducts = () => {
           </div>
         )}
 
-        {/* Desktop */}
+        {/* Desktop View */}
         {!isMobile && (
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-end gap-2 mb-4">
@@ -173,7 +188,7 @@ const FeaturedProducts = () => {
               </button>
             </div>
 
-            <div ref={desktopRef} onScroll={handleDesktopScroll} className="flex overflow-x-hidden scroll-smooth gap-4">
+            <div ref={desktopRef} onScroll={handleDesktopScroll} className="flex overflow-x-auto scroll-smooth gap-4 pb-4" style={{ scrollbarWidth: 'none' }}>
               {images.map((img, idx) => {
                 const badge = getBadge(idx);
                 return (
@@ -197,7 +212,7 @@ const FeaturedProducts = () => {
                           <span className="text-xs text-slate-500">(4.8)</span>
                         </div>
                         <h3 className="text-sm font-semibold text-slate-800 mb-1">Machine {idx + 1}</h3>
-                        <p className="text-xs text-slate-500 mb-2">High-performance solution.</p>
+                        <p className="text-xs text-slate-500 mb-2 truncate">Product ID: {idx + 1} of {totalItems}</p>
                         <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                           <span className="text-base font-bold text-slate-900">${(999 + idx * 100).toLocaleString()}</span>
                           <button onClick={(e) => e.stopPropagation()} className="px-3 py-1.5 rounded-full bg-slate-800 text-white text-xs flex items-center gap-1">
@@ -212,19 +227,20 @@ const FeaturedProducts = () => {
               })}
             </div>
 
-            <div className="flex justify-center gap-2 mt-6">
+            <div className="flex justify-center gap-2 mt-6 flex-wrap">
               {[...Array(maxDesktopIndex + 1)].map((_, idx) => (
                 <button key={idx} onClick={() => scrollToIndex(desktopRef, idx, false)} className={`h-1.5 rounded-full transition-all ${desktopIndex === idx ? 'w-6 bg-slate-800' : 'w-1.5 bg-slate-300'}`} />
               ))}
             </div>
           </div>
         )}
+        
         <FeaturedProduct />
 
         {/* View All Button */}
         <div className="text-center mt-6">
           <button onClick={() => navigate('/products')} className="px-5 py-2 rounded-full bg-slate-800 text-white text-sm hover:bg-slate-700 transition-colors inline-flex items-center gap-2">
-            View All Products
+            View All {totalItems} Products
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
