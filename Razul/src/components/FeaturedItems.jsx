@@ -239,7 +239,7 @@ const FeaturedProducts = () => {
 
         {/* View All Button */}
         <div className="text-center mt-6">
-          <button onClick={() => navigate('/products')} className="px-5 py-2 rounded-full bg-slate-800 text-white text-sm hover:bg-slate-700 transition-colors inline-flex items-center gap-2">
+          <button onClick={() => navigate('/all-products')} className="px-5 py-2 rounded-full bg-slate-800 text-white text-sm hover:bg-slate-700 transition-colors inline-flex items-center gap-2">
             View All {totalItems} Products
             <ArrowRight className="w-4 h-4" />
           </button>

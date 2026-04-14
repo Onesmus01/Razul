@@ -11,6 +11,7 @@ import Footer from './components/Footer.jsx';
 import ContactFloatButton from './components/WhatsAppButton.jsx';
 import NewsLetter from './components/NewsLetter.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
+import AllProducts from './pages/AllProducts.jsx';
 const App = () => {
   return (
     <div className="bg-gray-100 flex flex-col min-h-screen text-[10px] md:text-[12px]">
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/whatsup" element={<ContactPage />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/all-products" element={<AllProducts />} />
         </Routes>
       </main>
 
