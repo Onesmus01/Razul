@@ -12,9 +12,12 @@ import ContactFloatButton from './components/WhatsAppButton.jsx';
 import NewsLetter from './components/NewsLetter.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
 import AllProducts from './pages/AllProducts.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 const App = () => {
   return (
     <div className="bg-gray-100 flex flex-col min-h-screen text-[10px] md:text-[12px]">
+        <ScrollToTop />
+
       {/* Navbar */}
       <Navbar />
       <ContactFloatButton />
